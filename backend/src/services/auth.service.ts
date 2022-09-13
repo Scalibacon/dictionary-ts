@@ -13,7 +13,7 @@ class AuthService {
       }
 
       const id = uuidv4();
-      console.log('id', id)
+
       const passwordMd5 = md5(password);
       await DBConnection.connection.run(`
         INSERT INTO user (user_id, name, password, email) VALUES (?, ?, ?, ?)
@@ -55,7 +55,7 @@ class AuthService {
 }
 
 const getJwt = (userId: string) => {
-  const token = jwt.sign({ id: userId }, process.env.SECRET ?? "1S3GR3D0H4RD");
+  const token = jwt.sign({ user_id: userId }, process.env.SECRET ?? "1S3GR3D0H4RD");
 
   return token;
 }

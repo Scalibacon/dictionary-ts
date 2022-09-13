@@ -5,6 +5,10 @@ const wordRouter = Router();
 
 wordRouter.get('/en/:word', wordsController.fetchWordInfo);
 
+wordRouter.post('/en/:word/favorite', wordsController.favoriteWord);
+
+wordRouter.delete('/en/:word/unfavorite', wordsController.unfavoriteWord);
+
 wordRouter.get('/en', (request, response, next) => {
   const { search, limit, page } = request.query;  
 

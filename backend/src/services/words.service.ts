@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from "path";
 import { httpRequest } from '../config/httpRequest';
+import DBConnection from '../database/DBConnection';
 
 type TypeFetchList = {
   results: string[],
@@ -51,6 +52,36 @@ class WordsService {
     } catch(error){
       if(error instanceof Error) console.log('Error trying to fetch info', error.message);
       return new Error('No words found!');
+    }
+  }
+
+  async favoriteWord(word: string, userId: string){
+    try{
+      let favorite = await DBConnection.connection.get(`SELECT * FROM favorite WHERE user_id = ? AND word = ?`, [userId, word]);
+
+      if(favorite) {
+        return new Error('Word already favorited!');
+      }
+
+      await DBConnection.connection.run(`
+        INSERT INTO favorite (user_id, word, added) VALUES (?, ?, ?)
+      `, [userId, word, new Date()]);
+
+      return;
+    } catch(error){
+      if(error instanceof Error) console.log('Error trying to favorite word', error.message);
+      return new Error('Error trying to favorite word');
+    }
+  }
+
+  async unfavoriteWord(word: string, userId: string){
+    try{
+      await DBConnection.connection.run(`DELETE FROM favorite WHERE user_id = ? AND word = ?`, [userId, word]);
+
+      return;
+    } catch(error){
+      if(error instanceof Error) console.log('Error trying to unfavorite word', error.message);
+      return new Error('Error trying to unfavorite word');
     }
   }
 }
