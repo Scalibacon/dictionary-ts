@@ -7,7 +7,16 @@ class DBConnection {
 
   async createConnection() {
     // depois pegar o filename pelo process.env
-    const filename = path.join(__dirname, 'database.sqlite')
+    let databaseName: string;
+
+    if(process.env.NODE_ENV === 'test'){
+      databaseName = 'database-test.sqlite';
+    } else {
+      databaseName = 'database.sqlite';
+    }
+
+    const filename = path.join(__dirname, databaseName);
+
     DBConnection.connection = await open({
       filename: filename,
       driver: sqlite3.Database
@@ -15,6 +24,10 @@ class DBConnection {
 
     await this.initialSetup();
     console.log('Connection with database created!');
+  }
+
+  async closeConnection(){
+    await DBConnection.connection.close();
   }
 
   async initialSetup() {

@@ -12,17 +12,17 @@ class AuthService {
         return new Error('E-mail already used!');
       }
 
-      const id = uuidv4();
+      const user_id = uuidv4();
 
       const passwordMd5 = md5(password);
       await DBConnection.connection.run(`
         INSERT INTO user (user_id, name, password, email) VALUES (?, ?, ?, ?)
-      `, [id, name, passwordMd5, email]);
+      `, [user_id, name, passwordMd5, email]);
 
       return {
-        id,
+        user_id,
         name,
-        token: getJwt(id)
+        token: getJwt(user_id)
       }
 
     } catch (error) {
@@ -42,7 +42,7 @@ class AuthService {
       }
 
       return {
-        id: user.user_id,
+        user_id: user.user_id,
         name: user.name,
         token: getJwt(user.user_id)
       }

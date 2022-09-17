@@ -48,7 +48,7 @@ class WordsService {
       const result = await httpRequest.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
       const wordInfo = await result.data;
 
-      return wordInfo;
+      return wordInfo[0];
     } catch(error){
       if(error instanceof Error) console.log('Error trying to fetch info', error.message);
       return new Error('No words found!');

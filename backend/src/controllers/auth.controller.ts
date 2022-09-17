@@ -28,18 +28,6 @@ class AuthController{
 
     return response.status(200).json(loggedUser);
   }
-
-  fetchUserProfile(request: Request, response: Response){
-    // busca os dados do usuário logado
-  }
-
-  fetchUserHistory(request: Request, response: Response){
-    // busca o histórico de palavras acessadas pelo usuário
-  }
-
-  fetchUserFavorites(request: Request, response: Response){
-    // busca as palavras favoritas do usuário
-  }
 }
 
 export default new AuthController();
