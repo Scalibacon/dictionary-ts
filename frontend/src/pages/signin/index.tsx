@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { FormEvent } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,17 +14,39 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Copyright from '../../components/Copyright';
+import { login } from '../../auth/auth';
+import { useRouter } from 'next/router';
 
 const theme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const router = useRouter();
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     const data = new FormData(event.currentTarget);
-    console.log({
+    const body = {
       email: data.get('email'),
       password: data.get('password'),
+    };
+
+    const response = await fetch('http://localhost:3333/auth/signin', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
     });
+    const result = await response.json();
+
+    if (response.status !== 200) {
+      return alert(result.message);
+    }
+
+    login(result.token);
+    router.push('/');
   };
 
   return (
@@ -80,14 +102,16 @@ export default function SignIn() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <MUILink href="#" variant="body2">
-                  Forgot password?
-                </MUILink>
+                <NextLink href="/">
+                  <MUILink href="#" variant="body2">
+                    Continue as a guest
+                  </MUILink>
+                </NextLink>
               </Grid>
               <Grid item>
                 <NextLink href="/signup">
                   <MUILink variant="body2">{"Don't have an account? Sign Up"}</MUILink>
-                </NextLink>                
+                </NextLink>
               </Grid>
             </Grid>
           </Box>
