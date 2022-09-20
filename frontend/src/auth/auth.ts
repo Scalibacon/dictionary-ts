@@ -4,7 +4,6 @@ export const TOKEN_KEY = '@scali-dictionary';
 
 export const isAuthenticated = () => {
   const cookies = parseCookies();
-  console.log('cukis', cookies[TOKEN_KEY])
 
   return !!cookies[TOKEN_KEY];
 }

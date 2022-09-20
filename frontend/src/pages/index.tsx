@@ -6,8 +6,8 @@ export default function Home() {
   return (
     <Box>
       <Header />
-      <Container maxWidth="xl" sx={{ pt: '1rem'}}>
-        <TabPannel />
+      <Container component="main" maxWidth="xl" sx={{ pt: '1rem'}}>
+        <TabPannel />        
       </Container>
     </Box>
   )

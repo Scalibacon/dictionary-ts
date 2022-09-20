@@ -6,7 +6,7 @@ import User from "../types/User";
 
 class WordController {
   async fetchWordsList(request: Request, response: Response) {
-    const search = request.query.search as string;
+    const search = request.query.search as string ?? '';
     const limit = parseInt(request.query.limit as string);
     const page = parseInt(request.query.page as string);
 

@@ -10,11 +10,7 @@ wordRouter.post('/en/:word/favorite', wordsController.favoriteWord);
 wordRouter.delete('/en/:word/unfavorite', wordsController.unfavoriteWord);
 
 wordRouter.get('/en', (request, response, next) => {
-  const { search, limit, page } = request.query;  
-
-  if(typeof search !== 'string') {
-    return response.status(400).json({ message: 'Invalid search!'}); 
-  } 
+  // validate
   
   next();
 }, wordsController.fetchWordsList);
