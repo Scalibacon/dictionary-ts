@@ -1,11 +1,14 @@
 import Header from '../components/Header';
-import styles from '../styles/Home.module.scss';
+import TabPannel from '../components/TabPannel';
+import { Box, Container } from '@mui/material';
 
 export default function Home() {
   return (
-    <div className={styles.container}>
-      <Header/>
-      <h1>Homepage</h1>
-    </div>
+    <Box>
+      <Header />
+      <Container maxWidth="xl" sx={{ pt: '1rem'}}>
+        <TabPannel />
+      </Container>
+    </Box>
   )
 }
